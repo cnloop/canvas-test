@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        canvas {
+            border: 1px solid #000;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas width="600" height="600"></canvas>
+    <script>
+        let canvas = document.querySelector('canvas');
+        let ctx = canvas.getContext('2d')
+        ctx.moveTo(200, 100);
+        ctx.lineTo(400, 100);
+
+        ctx.moveTo(200, 200.5);
+        ctx.lineTo(400, 200.5);
+
+        ctx.stroke();
+
+        // 两条先颜色不一样的原有：
+        // 1. 线条的渲染是从屏幕的像素点与像素点间隔开始
+        // 2. 线条自然被分成了上下0.5px
+        // 3. 渲染0.5px会很淡
+        // 4. 解决办法就是上下移动0.5px
+
+    </script>
+</body>
+
+</html>

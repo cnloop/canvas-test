@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        canvas {
+            border: 1px solid #000;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas width="600" height="600"></canvas>
+    <script>
+        let canvas = document.querySelector('canvas');
+        let ctx = canvas.getContext('2d')
+
+
+
+        function getRandomColor() {
+            let r = Math.floor(Math.random() * 256);
+            let g = Math.floor(Math.random() * 256);
+            let b = Math.floor(Math.random() * 256);
+            return `rgb(${r},${g},${b})`;
+        }
+
+        const parts = 6;
+        const angle = Math.PI * 2 / 6;
+        for (let i = 0; i < parts; i++) {
+            let starAngle = i * angle;
+            let endAngle = (i + 1) * angle;
+            ctx.beginPath();
+            ctx.moveTo(300, 300);
+            ctx.arc(300, 300, 100, starAngle, endAngle)
+
+            ctx.closePath();
+            ctx.fillStyle = getRandomColor();
+            ctx.fill();
+            ctx.stroke();
+
+        }
+
+    </script>
+</body>
+
+</html>

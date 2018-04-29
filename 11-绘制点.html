@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        canvas {
+            border: 1px solid #000;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas width="600" height="600"></canvas>
+    <script>
+        let canvas = document.querySelector('canvas');
+        let ctx = canvas.getContext('2d')
+
+        let point = {
+            x: 100,
+            y: 100
+        }
+        let pointSize = 6
+        let pointX = point.x - pointSize / 2
+        let pointY = point.y - pointSize / 2
+        ctx.beginPath()
+        ctx.moveTo(pointX, pointY);
+        ctx.lineTo(pointX + pointSize, pointY);
+        ctx.lineTo(pointX + pointSize, pointY + pointSize)
+        ctx.lineTo(pointX, pointY + pointSize)
+        ctx.closePath();
+        ctx.fill()
+        
+        // 坐标点是位于一个正方形的中心，其原点需要设置
+
+
+    </script>
+</body>
+
+</html>

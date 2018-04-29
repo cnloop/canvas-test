@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        canvas {
+            border: 1px solid #000;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas width="600" height="600"></canvas>
+    <script>
+        function LineChart(ctx) {
+            this.ctx = ctx || document.querySelector('canvas').getContext('2d');
+            this.canvasWidth = this.ctx.canvas.width;
+            this.canvasHeight = this.ctx.canvas.height;
+            this.gridSize = 10;
+            this.space = 20;
+            this.arrowSize = 8;
+            this.pointSize = 8;
+        }
+
+        LineChart.prototype.init = function (points) {
+            this.drawGrid();
+            this.drawAxis();
+            this.drawPoints(points);
+        }
+
+        LineChart.prototype.drawGrid = function () {
+            let ctx = this.ctx;
+            let gridSize = this.gridSize;
+            let canvasWidth = this.canvasWidth;
+            let canvasHeight = this.canvasHeight;
+            //设置竖线条数
+            ctx.strokeStyle = '#eee';
+            let ylineTotal = Math.floor(canvasWidth / gridSize);
+            for (let i = 0; i < ylineTotal; i++) {
+                ctx.beginPath();
+                ctx.moveTo(i * gridSize - 0.5, 0);
+                ctx.lineTo(i * gridSize - 0.5, canvasHeight)
+                ctx.stroke();
+            }
+            const xlineTotal = Math.floor(canvasHeight / gridSize);
+            for (let i = 0; i < xlineTotal; i++) {
+                ctx.beginPath();
+                ctx.moveTo(0, i * gridSize - 0.5);
+                ctx.lineTo(canvasHeight, i * gridSize - 0.5)
+                ctx.stroke();
+            }
+        }
+
+        LineChart.prototype.drawAxis = function () {
+            let ctx = this.ctx;
+            let canvasWidth = this.canvasWidth;
+            let canvasHeight = this.canvasHeight;
+
+            const space = this.space;
+            const arrowSize = this.arrowSize;
+
+            const x0 = space;
+            const y0 = canvasHeight - space - 0.5;
+
+            const x1 = canvasWidth - space;
+            const y1 = y0;
+
+            const x2 = x0;
+            const y2 = space - 0.5;
+
+            ctx.strokeStyle = '#000';
+            ctx.beginPath();
+            ctx.moveTo(x0, y0);
+            ctx.lineTo(x1, y1);
+            ctx.lineTo(x1 - arrowSize, y1 - arrowSize)
+            ctx.lineTo(x1 - arrowSize, y1 + arrowSize)
+            ctx.lineTo(x1, y1);
+            ctx.fill()
+            ctx.stroke()
+
+            ctx.beginPath();
+            ctx.moveTo(x0, y0);
+            ctx.lineTo(x2, y2);
+            ctx.lineTo(x2 - arrowSize / 2, y2 + arrowSize);
+            ctx.lineTo(x2 + arrowSize / 2, y2 + arrowSize);
+            ctx.lineTo(x2, y2);
+            ctx.fill()
+            ctx.stroke()
+        }
+
+        LineChart.prototype.drawPoints = function (points) {
+            let ctx = this.ctx;
+            let pointSize = this.pointSize;
+            let space = this.space;
+            let canvasHeight = this.canvasHeight;
+
+            const x0 = space;
+            const y0 = canvasHeight - space - 0.5;
+
+            let drawedPoints = [];
+
+            for (let i = 0; i < points.length; i++) {
+                //转化成canvas坐标
+                let x = x0 + points[i].x;
+                let y = y0 - points[i].y;
+
+
+                //坐标点的起始点
+                let pointX = x - pointSize / 2
+                let pointY = y - pointSize / 2
+                ctx.beginPath()
+                ctx.moveTo(pointX, pointY);
+                ctx.lineTo(pointX + pointSize, pointY);
+                ctx.lineTo(pointX + pointSize, pointY + pointSize)
+                ctx.lineTo(pointX, pointY + pointSize)
+                ctx.closePath();
+                ctx.fill();
+
+                //放入已经描绘数组
+                drawedPoints.push({ x: x, y: y })
+            }
+            let lastPoint = { x: x0, y: y0 };
+            for (let i = 0; i < drawedPoints.length; i++) {
+                ctx.beginPath();
+                ctx.moveTo(lastPoint.x, lastPoint.y);
+                ctx.lineTo(drawedPoints[i].x, drawedPoints[i].y);
+                ctx.stroke();
+                lastPoint.x = drawedPoints[i].x;
+                lastPoint.y = drawedPoints[i].y;
+            }
+        }
+
+
+
+        let points = [
+            { x: 50, y: 200 },
+            { x: 150, y: 400 },
+            { x: 250, y: 300 },
+            { x: 350, y: 100 },
+            { x: 450, y: 50 },
+            { x: 550, y: 500 }
+        ];
+
+
+
+        var lineChart = new LineChart();
+        lineChart.init(points);
+
+    </script>
+</body>
+
+</html>

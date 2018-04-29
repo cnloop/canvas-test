@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        canvas {
+            border: 1px solid #000;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas width="600" height="600"></canvas>
+    <script>
+        let canvas = document.querySelector('canvas');
+        let ctx = canvas.getContext('2d')
+
+        const data = [10, 40, 20, 30]
+
+        const sumData = function () {
+            let sumData = 0;
+            data.forEach((item, index) => {
+                sumData += item;
+            })
+            return sumData;
+        }();
+
+
+        let convertArc = [];
+        data.forEach((item, index) => {
+            convertArc.push(2 * Math.PI * item / sumData);
+        })
+
+        function getRandomColor() {
+            let r = Math.floor(Math.random() * 256);
+            let g = Math.floor(Math.random() * 256);
+            let b = Math.floor(Math.random() * 256);
+            return `rgb(${r},${g},${b})`;
+        }
+
+        let lastAngle = 0;
+        console.dir(convertArc)
+        for (let i = 0; i < convertArc.length; i++) {
+            let startAngle = lastAngle;
+            let endAngle = lastAngle + convertArc[i];
+            ctx.beginPath();
+            ctx.moveTo(300, 300);
+            ctx.arc(300, 300, 150, startAngle, endAngle)
+            ctx.fillStyle = getRandomColor();
+            ctx.fill();
+            ctx.stroke();
+            lastAngle = endAngle;
+        }
+
+
+
+
+    </script>
+</body>
+
+</html>

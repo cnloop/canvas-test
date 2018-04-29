@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        canvas {
+            border: 1px solid #000;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas width="600" height="600"></canvas>
+    <script>
+
+
+        function DrawPie(ctx) {
+            this.ctx = ctx || document.querySelector('canvas').getContext('2d');
+            this.x0 = this.ctx.canvas.width / 2 + 60;
+            this.y0 = this.ctx.canvas.height / 2 + 60;
+            this.r = 150;
+            this.outLine = 17;
+            this.space = 30;
+            this.rectWidth = 30;
+            this.rectHeight = 20;
+        }
+
+        DrawPie.prototype.init = function (data) {
+            this.frame(data);
+            this.tips(data);
+            this.rect(data);
+        }
+
+        DrawPie.prototype.getRandomColor = function () {
+            let r = Math.floor(Math.random() * 256);
+            let g = Math.floor(Math.random() * 256);
+            let b = Math.floor(Math.random() * 256);
+            return `rgb(${r},${g},${b})`;
+        }
+
+        DrawPie.prototype.getOutPointX = function (r, outLine, rad, x0) {
+            return (r + outLine) * Math.cos(rad) + x0;
+        }
+
+        DrawPie.prototype.getOutPointY = function (r, outLine, rad, y0) {
+            return (r + outLine) * Math.sin(rad) + y0
+        }
+
+        DrawPie.prototype.frame = function (data) {
+            let ctx = this.ctx;
+            let x0 = this.x0;
+            let y0 = this.y0;
+            let r = this.r;
+            let getRandomColor = this.getRandomColor;
+            const sumData = function () {
+                let sumData = 0;
+                data.forEach((item, index) => {
+                    sumData += item.num;
+                })
+                return sumData;
+            }();
+            data.forEach((item, index) => {
+                item.rad = 2 * Math.PI * item.num / sumData;
+            })
+            let lastRad = 0;
+            for (let i = 0; i < data.length; i++) {
+                let startRad = lastRad;
+                let endRad = lastRad + data[i].rad;
+                ctx.beginPath();
+                ctx.moveTo(x0, y0);
+                ctx.arc(x0, y0, r, startRad, endRad)
+                let color = getRandomColor();
+                ctx.fillStyle = color;
+                data[i].color = color;
+                ctx.fill();
+                lastRad = endRad;
+            }
+        }
+
+        DrawPie.prototype.tips = function (data) {
+            const r = this.r;
+            const ctx = this.ctx;
+            const outLine = this.outLine;
+            const x0 = this.x0;
+            const y0 = this.y0;
+            let getOutPointX = this.getOutPointX;
+            let getOutPointY = this.getOutPointY;
+            const tranformAngle = this.tranformAngle;
+
+            // 获取延长线的终点
+            let lastRad = 0;
+            for (let i = 0; i < data.length; i++) {
+                let rad = lastRad + data[i].rad / 2;
+                data[i].outPointX = getOutPointX(r, outLine, rad, x0);
+                data[i].outPointY = getOutPointY(r, outLine, rad, y0);
+                lastRad += data[i].rad;
+            }
+
+            // 连线
+            for (let i = 0; i < data.length; i++) {
+                ctx.beginPath();
+                ctx.moveTo(x0, y0);
+                ctx.lineTo(data[i].outPointX, data[i].outPointY);
+                ctx.strokeStyle = '#000';
+                ctx.strokeStyle = data[i].color;
+                ctx.stroke();
+            }
+
+            // 绘制文本和下划线
+            for (let i = 0; i < data.length; i++) {
+                ctx.beginPath();
+                ctx.font = '16px Microsoft YaHei';
+                ctx.fillStyle = data[i].color;
+                ctx.strokeStyle = data[i].color;
+                ctx.textBaseline = 'bottom'; //top bottom middle 
+                ctx.moveTo(data[i].outPointX, data[i].outPointY);
+                let txtWidth = ctx.measureText(data[i].text).width;
+
+                if (data[i].outPointX >= x0) {
+                    ctx.textAlign = 'left';
+                    ctx.lineTo(data[i].outPointX + txtWidth, data[i].outPointY);
+
+
+                } else {
+                    ctx.textAlign = 'right';
+                    ctx.lineTo(data[i].outPointX - txtWidth, data[i].outPointY);
+                }
+                ctx.stroke();
+                ctx.fillText(data[i].text, data[i].outPointX, data[i].outPointY)
+            }
+
+
+
+        }
+
+        DrawPie.prototype.rect = function (data) {
+            let space = this.space;
+            let rectWidth = this.rectWidth;
+            let rectHeight = this.rectHeight;
+            let ctx = this.ctx;
+
+            let rectX = space;
+            let rectY = space;
+            for (let i = 0; i < data.length; i++) {
+                ctx.beginPath();
+                ctx.fillRect(rectX, rectY, rectWidth, rectHeight);
+                ctx.fillText(data[i].text, rectX + rectWidth + 20, rectY + 20) // 第四个参数是设置文字的最大宽度  默认不设置
+                ctx.fillStyle = data[i].color;
+                rectY += rectHeight + rectHeight / 2;
+            }
+
+        }
+
+
+        const data = [
+            { text: '0~15岁', num: 5 },
+            { text: '16~25岁', num: 45 },
+            { text: '25~40岁', num: 25 },
+            { text: '40~60岁', num: 15 },
+            { text: '60岁以上', num: 10 },
+        ]
+        let pie = new DrawPie();
+        pie.init(data);
+    </script>
+</body>
+
+</html>

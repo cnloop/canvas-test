@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        canvas {
+            border: 1px solid #000;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas width="600" height="600"></canvas>
+    <script>
+        let canvas = document.querySelector('canvas');
+        let ctx = canvas.getContext('2d') //获取上下文(获取工具)
+        ctx.moveTo(100, 100); //画笔移动到指定点
+        ctx.lineTo(200, 100); //轨迹
+        ctx.stroke();// 描边
+
+        // canvas 宽高设置不能写在style中
+        // 样式设置canvas宽高只会放大，画布中的元素页放大了
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        canvas {
+            border: 1px solid #000;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas width="600" height="600"></canvas>
+    <script>
+        let canvas = document.querySelector('canvas');
+        let ctx = canvas.getContext('2d')
+
+        ctx.moveTo(100, 100)
+        ctx.lineTo(200, 200)
+        ctx.setLineDash([5, 10])
+        ctx.lineDashOffset = -20
+        ctx.stroke();
+        // setLineDash 设置虚线[5,10] 实 虚 
+        // getLineDash 获取虚线设置
+        // lineDashOffset 设置虚线偏移量 负值向右偏移
+    </script>
+</body>
+
+</html>

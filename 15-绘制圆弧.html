@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        canvas {
+            border: 1px solid #000;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas width="600" height="600"></canvas>
+    <script>
+        let canvas = document.querySelector('canvas');
+        let ctx = canvas.getContext('2d')
+
+        ctx.moveTo(300, 300)
+
+        // 一个弧度等于圆的半径 那么一个圆有2π的弧度
+        // xy坐标 半径 起始位置 终点位置 默认绘制方向是顺时针方向 false
+        ctx.arc(300, 300, 100, Math.PI / 2, Math.PI)
+        ctx.closePath();
+        ctx.stroke();
+
+    </script>
+</body>
+
+</html>

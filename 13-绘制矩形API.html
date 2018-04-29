@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        canvas {
+            border: 1px solid #000;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas width="600" height="600"></canvas>
+    <script>
+        let canvas = document.querySelector('canvas');
+        let ctx = canvas.getContext('2d')
+
+        // 没有单独的路径
+        ctx.rect(50, 50, 100, 100);  //xy坐标 宽高
+        ctx.fill();
+
+        // 有独立路径 自带beginPaht
+        ctx.strokeRect(50, 200, 100, 100);
+        ctx.fillRect(50, 350, 100, 100);
+
+        // 清楚画布
+        // ctx.clearRect(0, 0, 300, 300)
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        canvas {
+            border: 1px solid #000;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas width="600" height="600"></canvas>
+    <script>
+        let canvas = document.querySelector('canvas');
+        let ctx = canvas.getContext('2d')
+
+
+        const canvasWidth = ctx.canvas.width
+        const canvasHeight = ctx.canvas.height
+
+        const span = 20;
+        const arrowSize = 8;
+
+        const x0 = span - 0.5;
+        const y0 = canvasHeight - span - 0.5;
+
+        const x1 = canvasWidth - span;
+        const y1 = y0;
+
+        const x2 = x0;
+        const y2 = span - 0.5;
+
+
+        ctx.beginPath();
+        ctx.moveTo(x0, y0);
+        ctx.lineTo(x1, y1);
+        ctx.lineTo(x1 - arrowSize, y1 - arrowSize)
+        ctx.lineTo(x1 - arrowSize, y1 + arrowSize)
+        ctx.lineTo(x1, y1);
+        ctx.fill()
+        ctx.stroke()
+
+        ctx.beginPath();
+        ctx.moveTo(x0, y0);
+        ctx.lineTo(x2, y2);
+        ctx.lineTo(x2 - arrowSize / 2, y2 + arrowSize);
+        ctx.lineTo(x2 + arrowSize / 2, y2 + arrowSize);
+        ctx.lineTo(x2, y2);
+        ctx.fill()
+        ctx.stroke()
+
+
+
+
+        // 通过设置单元格的大小，比对需要描绘的线条数量
+    </script>
+</body>
+
+</html>
